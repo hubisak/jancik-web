@@ -1,0 +1,248 @@
+<?php
+// Zpracování formuláře
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $messageBody = htmlspecialchars($_POST['content']);
+
+    // PŘIZPŮSOB TYTO DVA EMAILY
+    $to   = "hubert.postulka@gmail.com";       // komu se email posílá
+    $from = "marekjancik7@seznam.cz";    // od koho (Endora: musí být na doméně)
+
+    $subject = "děda na medu";
+    
+    $headers  = "From: $from\r\n";
+    $headers .= "Reply-To: $from\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
+
+    $body = "Zpráva z webového formuláře:\n\n" . $messageBody;
+
+    // Odeslání
+    $success = mail($to, $subject, $body, $headers);
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+    <body> 
+        <header>
+        <nav>
+            <ul class='nav-bar flex-row justify-content-between'>
+                <li class='logo' ><a href="uvod.html"><img style="width: 12rem; " src='img/logo-jancik.png'/></a></li>
+                <span class="menu">
+                    <li><a href="uvod.html">úvod</a></li>
+                    <li><a href="profil.html">profil firmy</a></li>
+                    <li class="dropdown">
+                        <a href="autobus.html" class="dropbtn">autobusová doprava</a>
+                        <ul class="dropdown-content">
+                            <li><a href="nabidkabus.html">nabídka vozidel</a></li>
+                            <li><a href="poptavka-objednavka.html">poptávka, objednávka</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="naklad.html" class="dropbtn">nákladní doprava</a>
+                        <ul class="dropdown-content">
+                            <li><a href="nabidkakamion.html">nabídka vozidel</a></li>
+                            <li><a href="poptavka/objednavka.html">poptávka, objednávka</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="bazar.html">BAZAR</a></li>
+                    <li><a href="cestovni.html">cestovní agentura</a></li>
+                    <li><a href="kontakty.html">kontakty</a></li>
+                    <label for="check" class="close-menu"><i class="fas fa-times"></i></label>
+                </span>
+                <label for="check" class="open-menu"><i class="fas fa-bars"></i></label>
+            </ul>
+        </nav>
+    </header>
+
+        <div style="margin-left: 2rem;">
+            <div class="top-0">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="uvod.html">úvod</a></li>
+                        <li class="breadcrumb-item"><a href="autobus.html">autobusová doprava</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">poptávka, objednávka</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+<div class="card container p-5 mt-5 mb-5">
+  <h2 class="mb-4">Poptávkový formulář</h2>
+
+  <form>
+    <!-- Typ formuláře -->
+    <div class="mb-5">
+      <label class="form-label">Typ formuláře</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="formType" id="poptavam" value="Poptávám" checked>
+        <label class="form-check-label" for="poptavam">Poptávám</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="formType" id="objednavam" value="Závazně objednávám">
+        <label class="form-check-label" for="objednavam">Závazně objednávám</label>
+      </div>
+    </div>
+
+    <!-- Kontakt -->
+    <div class="mb-3">
+      <label class="form-label">Kontakt</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="personType" id="osoba" value="Fyzická osoba" checked onclick="toggleCompanyFields(false)">
+        <label class="form-check-label" for="osoba">Fyzická osoba</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="personType" id="firma" value="Firma" onclick="toggleCompanyFields(true)">
+        <label class="form-check-label" for="firma">Firma</label>
+      </div>
+    </div>
+
+    <!-- Firemní pole -->
+    <div id="companyFields" class="fade-section">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Název firmy<span class="star">*</span></label>
+                <input type="text" name="nazev_firmy" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Sídlo firmy</label>
+                <input type="text" name="sidlo_firmy" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">IČ</label>
+                <input type="text" name="ic" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">DIČ</label>
+                <input type="text" name="dic" class="form-control">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Jméno a kontakt -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Jméno<span class="star">*</span></label>
+        <input type="text" name="jmeno" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Příjmení<span class="star">*</span></label>
+        <input type="text" name="prijmeni" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-md-6">
+        <label class="form-label">Telefon<span class="star">*</span></label>
+        <input type="tel" name="telefon" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">E-mail<span class="star">*</span></label>
+        <input type="email" name="email" class="form-control" required>
+      </div>
+    </div>
+
+    <!-- Doprava -->
+    <div class="mb-5">
+      <label class="form-label">Typ přepravy</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="doprava" value="Vnitrostátní" checked>
+        <label class="form-check-label">Vnitrostátní</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="doprava" value="Mezinárodní">
+        <label class="form-check-label">Mezinárodní</label>
+      </div>
+    </div>
+
+    <!-- Přistavení a ukončení -->
+    <div class="row mb-5">
+      <div class="col-md-6">
+        <label class="form-label">Přistavení vozidla - datum a čas<span class="star">*</span></label>
+        <input type="date" name="datum_pristaveni" class="form-control" required>
+        <input type="time" name="cas_pristaveni" class="form-control mt-2" required>
+        <input type="text" name="misto_pristaveni" class="form-control mt-2" placeholder="Místo*" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Ukončení přepravy - datum a čas<span class="star">*</span></label>
+        <input type="date" name="datum_ukonceni" class="form-control" required>
+        <input type="time" name="cas_ukonceni" class="form-control mt-2" required>
+        <input type="text" name="misto_ukonceni" class="form-control mt-2" placeholder="Místo*" required>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <label class="form-label">Cílové místo přepravy<span class="star">*</span></label>
+      <input type="text" name="cilove_misto" class="form-control" required>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-md-6">
+        <label class="form-label">Předpokládaný počet osob</label>
+        <input type="number" name="pocet_osob" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Typ zájezdu</label>
+        <input type="text" name="typ_zajezdu" class="form-control" placeholder="např. lyžařský, poznávací">
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <label class="form-label">Ubytování pro řidiče</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="ubytovani" value="Bez ubytování" checked>
+        <label class="form-check-label">bez ubytování</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="ubytovani" value="S ubytováním">
+        <label class="form-check-label">s ubytováním</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="ubytovani" value="S ubytováním se stravou">
+        <label class="form-check-label">ubytování se stravou</label>
+      </div>
+    </div>
+
+    <button type="submit" class="odeslat">Odeslat</button>
+  </form>
+
+</div>
+
+    <footer class="container-fluid bottom-0 d-flex justify-content-around align-items-center"    style="background-color: #ff7b00; color: white; height: 5rem;">
+            <div class="text-center" style="margin-top: 1rem;">
+                <p>Copyright © 2010-2025 Radek Jančík</p>
+            </div>
+            <div class="text-center" style="margin-top: 1rem;">
+                <a href="kontakty.html"><p>Kontakty</p></a>
+            </div>
+        </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script>
+        function toggleCompanyFields(show) {
+            const section = document.getElementById('companyFields');
+            if (show) {
+                section.classList.add('show');
+            } else {
+                section.classList.remove('show');
+            }
+        }
+    </script>
+
+    </body>
+</html>

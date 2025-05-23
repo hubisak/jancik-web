@@ -1,0 +1,305 @@
+::-webkit-scrollbar { width: 5px; height: 3px;}
+::-webkit-scrollbar-button {  background-color: #666; }
+::-webkit-scrollbar-track {  background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 1px;}
+::-webkit-scrollbar-corner { background-color: #646464;}
+::-webkit-resizer { background-color: #666;}
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+*{
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+body{
+  background: #eeeeee;
+  font-family: "League Spartan", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+.nav-bar {
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  position: relative;
+  background-color: #ff7b00;
+  padding: 18px 50px;
+  opacity: 98%;
+  z-index: 10;
+}
+.logo img {
+  width: 350px;
+}
+.menu {
+  display: flex;
+  justify-content: center;
+}
+.menu li {
+  padding-left: 5rem;
+}
+.menu li a {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  transition: 0.15s ease-in-out;
+  position: relative;
+  text-transform: uppercase;
+}
+.menu li a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+}
+.menu a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transform-origin: center;
+  transition: transform 0.30s ease-out;
+}
+.menu a:hover::after {
+  transform: scaleX(1);
+  transform-origin: center;
+}
+.menu li a:hover:after {width: 100%;}
+.open-menu , .close-menu {
+  position: absolute;
+  color: white;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: none;
+}
+.open-menu {
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+.close-menu {
+  top: 20px;
+  right: 20px;
+}
+#check {display: none;}
+@media(max-width: 610px){
+  .menu {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 80%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      right: -100%;
+      z-index: 100;
+      background-color: #1C1C1C;
+      transition: all 0.2s ease-in-out;
+  
+  }
+  .menu li {margin-top: 40px;}
+  .menu li a {padding: 10px;}
+  .open-menu , .close-menu {display: block;}
+  #check:checked ~ .menu {right: 0;}
+}
+
+
+main {
+  display: flex;
+  flex-wrap: wrap; /* Umožní zalamování karet na menších obrazovkách */
+  justify-content: center; /* Zarovná karty na střed */
+  gap: 100px; /* Prostor mezi kartami */
+  padding: 50px; /* Prostor kolem hlavního obsahu */
+}
+
+.card {
+  background-color: #1C1C1C;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0;  
+  width: 300px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Přidání stínu pro lepší vzhled */
+  transition: transform 0.3s ease; /* Animace při najetí myší */
+}
+
+a .card:hover {
+  transform: scale(1.05); /* Zvýraznění při najetí myší */
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%; /* Karty budou zabírat celou šířku na menších obrazovkách */
+  }
+}
+footer{
+font-weight: 600;
+font-size: 1.2rem;
+}
+footer a {
+  font-weight: 600;
+  color: white;
+  margin-bottom: 1em;
+}
+footer a:hover {
+  color: #e7e7e7;
+}
+/* Dropdown menu styling */
+.nav-bar .dropdown {
+    position: relative;
+}
+.nav-bar ul {
+  padding-left: 0rem;
+}
+.nav-bar .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ff7b00;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+}
+
+.nav-bar .dropdown-content li {
+    padding: 8px 16px;
+}
+
+.nav-bar .dropdown-content li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 16px; /* Přidá prostor kolem textu */
+}
+.nav-bar .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.nav-bar .dropdown-content li a:hover::after {
+    content: none; 
+}
+
+/* Světlé pozadí při hover efektu na odkazy v dropdown menu */
+.nav-bar .dropdown-content li a:hover {
+    background-color: #f3f3f3; /* Světlé pozadí */
+    color: #000; /* Změna barvy textu na černou */
+
+}
+a:hover{
+  color: #ff7b00;
+  cursor: pointer;
+}
+.card .card-body a{
+  color: #000000;
+}
+.card .card-body a:hover{
+  color: #ff7b00;
+}
+main .card{
+  position: relative;
+  z-index: 1;
+}
+
+li a{
+  color: #000;
+} 
+#uvod-main {
+    flex-wrap: nowrap; /* Prevent wrapping */
+}
+@media (max-width: 610px) {
+    #uvod-main {
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+}
+
+.hidden { 
+  display: none;
+}
+.fade-section {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  .fade-section.show {
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  .background-img{
+    position: fixed;
+    width: 40rem;
+    height: 30rem;
+    object-fit: contain;
+    z-index: -1;
+  }
+
+.odeslat {
+  width: fit-content;
+  min-width: 100px;
+  height: 45px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 0px;
+  box-shadow: 0px 0px 20px -20px;
+  cursor: pointer;
+  color: white;
+  background-color: #ff7b00;
+  transition: all 0.2s ease-in-out 0ms;
+  user-select: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+.odeslat:hover {
+  background-color: #eb7100;
+  box-shadow: 0px 0px 20px -18px;
+}
+
+.odeslat:active {
+  transform: scale(0.95);
+}
+.star {
+  color: #ec7200;
+  font-size: 1.2rem;
+}
+.hover img:hover {
+  transform: scale(1.1);
+}
+.hover img {
+  transition: all 0.17s ease-out;
+}
+.bazar-img img{
+  opacity: 0.9;
+  transition: all 0.2s ease-in-out;
+}
+.bazar-img:hover img{
+  opacity: 1;
+}
+.bazar-img{
+  background: #000;
+}
